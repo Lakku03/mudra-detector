@@ -3,7 +3,7 @@
   --text: #eff3ff;
   --chip-bg: rgba(255, 255, 255, 0.16);
   --chip-border: rgba(255, 255, 255, 0.34);
-  --label: #ff5da8;
+  --label: #ad1457;
 }
 
 * {
@@ -114,7 +114,12 @@ body {
   font-size: clamp(3rem, 2.8rem + 1vw, 3.6rem);
   line-height: 1;
   margin: 0.35rem 0 0.92rem;
-  align-self: center;
+  align-self: stretch;
+  text-align: center;
+  padding: 2.1rem 1rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.09);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .chip-meaning {
