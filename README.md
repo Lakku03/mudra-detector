@@ -9,7 +9,7 @@ This app opens your webcam, tracks hand landmarks live, and tries to identify cl
 - Patāka
 - Tripatāka
 - Ardhapatāka
-- Tarjanī
+- Suchi
 - Chandrakalā
 - Alāpadma
 - Muṣṭi
