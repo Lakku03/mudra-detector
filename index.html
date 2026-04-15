@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mudra Detector - MediaPipe Hands</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&family=Noto+Sans+Devanagari:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <video class="input-video" playsinline></video>
+      <canvas class="output-canvas"></canvas>
+
+      <header class="app-header">
+        <h1>bharatanatyam mudras</h1>
+        <p class="app-subtitle">भरतनाट्यम् मुद्राः</p>
+      </header>
+
+      <div class="hand-tag" id="handTag">unknown</div>
+
+      <section class="chip-overlay" id="mudraChip" aria-live="polite">
+        <span class="chip-label">current mudra</span>
+        <span class="chip-title" id="mudraName">unknown</span>
+        <span class="chip-emoji" id="mudraEmoji">🫱</span>
+        <span class="chip-meaning" id="mudraMeaning">
+          align your hand in view to begin detection.
+        </span>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
