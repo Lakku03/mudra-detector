@@ -1,5 +1,56 @@
 import { detectMudra } from "./mudras.js";
 
+const MUDRA_AUDIO = {
+  "Patāka":       new Audio("./audio/Patāka.mp3"),
+  "Tripatāka":    new Audio("./audio/Tripatāka.mp3"),
+  "Ardhapatāka":  new Audio("./audio/Ardhapatāka.mp3"),
+  "Chandrakalā":  new Audio("./audio/Chandrakalā.mp3"),
+  "Alāpadma":     new Audio("./audio/Alāpadma.mp3"),
+  "Muṣṭi":        new Audio("./audio/Muṣṭi.mp3"),
+  "Katakamukha":  new Audio("./audio/Katakamukha.mp3"),
+  "Mayūra":       new Audio("./audio/Mayūra.mp3"),
+  "Suchi":        new Audio("./audio/suchi.mp3"),
+};
+
+const STABLE_FRAMES_REQUIRED = 8;
+
+let stableCandidate = null;   // mudra name currently accumulating frames
+let stableFrameCount = 0;     // consecutive frames seen for stableCandidate
+let confirmedMudra = null;    // last mudra that passed the threshold (audio played)
+let currentAudio = null;      // Audio node currently playing
+
+function stopCurrentAudio() {
+  if (currentAudio && !currentAudio.paused) {
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
+  }
+  currentAudio = null;
+}
+
+function stabilizeAndPlay(rawName) {
+  if (rawName !== stableCandidate) {
+    // New candidate — reset counter
+    stableCandidate = rawName;
+    stableFrameCount = 1;
+    return;
+  }
+
+  stableFrameCount++;
+
+  if (stableFrameCount < STABLE_FRAMES_REQUIRED) return;
+  if (rawName === confirmedMudra) return; // already played for this hold
+
+  confirmedMudra = rawName;
+  if (!audioEnabled) return;
+  stopCurrentAudio();
+
+  const audio = MUDRA_AUDIO[rawName];
+  if (!audio) return;
+  audio.currentTime = 0;
+  currentAudio = audio;
+  audio.play().catch(() => {});
+}
+
 const videoElement = document.querySelector(".input-video");
 const canvasElement = document.querySelector(".output-canvas");
 const canvasCtx = canvasElement.getContext("2d");
@@ -7,6 +58,21 @@ const mudraNameEl = document.getElementById("mudraName");
 const mudraEmojiEl = document.getElementById("mudraEmoji");
 const mudraMeaningEl = document.getElementById("mudraMeaning");
 const handTagEl = document.getElementById("handTag");
+const audioToggleEl = document.getElementById("audioToggle");
+
+let audioEnabled = true;
+
+// Render Lucide icons once the UMD script has loaded.
+if (window.lucide) window.lucide.createIcons();
+
+audioToggleEl.addEventListener("click", () => {
+  audioEnabled = !audioEnabled;
+  if (!audioEnabled) stopCurrentAudio();
+
+  const iconEl = document.getElementById("audioIcon");
+  iconEl.setAttribute("data-lucide", audioEnabled ? "volume-2" : "volume-x");
+  window.lucide.createIcons();
+});
 
 const UNKNOWN_TEXT = {
   name: "unknown",
@@ -33,9 +99,14 @@ function updateChip(detection) {
     mudraNameEl.textContent = UNKNOWN_TEXT.name;
     mudraEmojiEl.textContent = UNKNOWN_TEXT.emoji;
     mudraMeaningEl.textContent = UNKNOWN_TEXT.meaning;
+    stableCandidate = null;
+    stableFrameCount = 0;
+    confirmedMudra = null;
+    stopCurrentAudio();
     return;
   }
 
+  stabilizeAndPlay(detection.name);
   mudraNameEl.textContent = detection.name;
   mudraEmojiEl.textContent = detection.emoji ?? "🫱";
   mudraMeaningEl.textContent = detection.meaning;

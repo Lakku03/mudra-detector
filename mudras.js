@@ -113,14 +113,13 @@ function detectPataka(hand) {
 }
 
 function detectTripataka(hand) {
-  const thumbIndexDistance = distance(hand[4], hand[8]);
+  const thumbRingDistance = distance(hand[4], hand[16]);
   if (
     isExtended(hand, "index") &&
     isExtended(hand, "middle") &&
     isFolded(hand, "ring") &&
     isExtended(hand, "pinky") &&
-    thumbClosed(hand) &&
-    thumbIndexDistance > 0.06
+    thumbRingDistance > 0.05
   ) {
     return 0.8;
   }
@@ -209,12 +208,13 @@ function detectKapittha(hand) {
 }
 
 function detectMayura(hand) {
-  const thumbIndexDistance = distance(hand[4], hand[8]);
+  const thumbRingDistance = distance(hand[4], hand[16]);
   if (
-    thumbIndexDistance <= 0.06 &&
+    isExtended(hand, "index") &&
     isExtended(hand, "middle") &&
-    isExtended(hand, "ring") &&
-    isExtended(hand, "pinky")
+    isFolded(hand, "ring") &&
+    isExtended(hand, "pinky") &&
+    thumbRingDistance < 0.05
   ) {
     return 0.93;
   }

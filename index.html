@@ -22,6 +22,10 @@
         <p class="app-subtitle">भरतनाट्यम् मुद्राः</p>
       </header>
 
+      <button class="audio-toggle" id="audioToggle" aria-label="Toggle audio">
+        <i data-lucide="volume-2" id="audioIcon"></i>
+      </button>
+
       <div class="hand-tag" id="handTag">unknown</div>
 
       <section class="chip-overlay" id="mudraChip" aria-live="polite">
@@ -34,6 +38,7 @@
       </section>
     </main>
 
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
