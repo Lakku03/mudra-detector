@@ -14,10 +14,12 @@ const UNKNOWN_TEXT = {
   meaning: "align your hand in view to begin detection.",
 };
 
-let frameWidth = 1280;
-let frameHeight = 720;
-const TARGET_WIDTH = 1280;
-const TARGET_HEIGHT = 720;
+let frameWidth = 1920;
+let frameHeight = 1080;
+const TARGET_WIDTH = 1920;
+const TARGET_HEIGHT = 1080;
+
+videoElement.style.filter = "contrast(1.05) saturate(1.1)";
 
 function resizeCanvas(width, height) {
   frameWidth = width;
@@ -71,9 +73,11 @@ async function enforceHdVideoTrack() {
 
   // Ask for HD explicitly so browsers don't default to low-res streams.
   await track.applyConstraints({
-    width: { ideal: TARGET_WIDTH, min: 960 },
-    height: { ideal: TARGET_HEIGHT, min: 540 },
-    aspectRatio: { ideal: TARGET_WIDTH / TARGET_HEIGHT },
+    width: { ideal: 1920, min: 1280 },
+    height: { ideal: 1080, min: 720 },
+    frameRate: { ideal: 60, min: 30 },
+    facingMode: "user",
+    aspectRatio: { ideal: 1920 / 1080 },
   });
 
   const settings = track.getSettings();
@@ -135,6 +139,7 @@ const camera = new Camera(videoElement, {
   },
   width: TARGET_WIDTH,
   height: TARGET_HEIGHT,
+  facingMode: "user",
 });
 
 camera

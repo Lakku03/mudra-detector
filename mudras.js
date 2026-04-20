@@ -35,8 +35,8 @@ export const MUDRA_DETAILS = {
     meaning: "closed fist; conveys firmness, grasping, strength, or holding objects.",
     emoji: "✊",
   },
-  Kapittha: {
-    meaning: "gripping flower/stem gesture; used in depictions of Lakshmi and Saraswati.",
+  Katakamukha: {
+    meaning: "kataka — the link of a chain; used to hold a garland, depict an ornament, or represent an offering.",
     emoji: "🌼",
   },
   "Mayūra": {
@@ -231,7 +231,7 @@ export function detectMudra(landmarks) {
     { name: "Patāka", score: detectPataka(landmarks) },
     { name: "Tripatāka", score: detectTripataka(landmarks) },
     { name: "Ardhapatāka", score: detectArdhapataka(landmarks) },
-    { name: "Kapittha", score: detectKapittha(landmarks) },
+    { name: "Katakamukha", score: detectKapittha(landmarks) },
   ];
 
   const best = candidates.reduce((acc, item) => (item.score > acc.score ? item : acc), {
