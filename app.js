@@ -51,13 +51,24 @@ function stabilizeAndPlay(rawName) {
   audio.play().catch(() => {});
 }
 
-// Unlock audio on mobile — browsers block audio until the first user interaction.
+// Unlock audio on mobile — Safari blocks audio until a direct user gesture.
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-function unlockAudio() {
-  if (audioCtx.state === "suspended") audioCtx.resume();
+const mobileGateEl = document.getElementById("mobileGate");
+const mobileGateBtnEl = document.getElementById("mobileGateBtn");
+
+// On mobile, detection is held until the user taps Begin.
+// On desktop the gate element doesn't render, so start immediately.
+let detectionReady = !mobileGateEl || window.matchMedia("(min-width: 481px)").matches;
+
+if (mobileGateBtnEl) {
+  mobileGateBtnEl.addEventListener("click", () => {
+    audioCtx.resume();
+    detectionReady = true;
+    mobileGateEl.classList.add("hidden");
+    setTimeout(() => mobileGateEl.remove(), 350);
+    startCamera();
+  });
 }
-document.addEventListener("click", unlockAudio, { once: true });
-document.addEventListener("touchstart", unlockAudio, { once: true });
 
 const videoElement = document.querySelector(".input-video");
 const canvasElement = document.querySelector(".output-canvas");
@@ -221,11 +232,15 @@ const camera = new Camera(videoElement, {
   facingMode: "user",
 });
 
-camera
-  .start()
-  .then(enforceHdVideoTrack)
-  .catch((err) => {
-    mudraNameEl.textContent = "camera unavailable";
-    mudraEmojiEl.textContent = "⚠️";
-    mudraMeaningEl.textContent = `could not start webcam: ${err?.message ?? "unknown error"}`;
-  });
+function startCamera() {
+  camera
+    .start()
+    .then(enforceHdVideoTrack)
+    .catch((err) => {
+      mudraNameEl.textContent = "camera unavailable";
+      mudraEmojiEl.textContent = "⚠️";
+      mudraMeaningEl.textContent = `could not start webcam: ${err?.message ?? "unknown error"}`;
+    });
+}
+
+if (detectionReady) startCamera();
