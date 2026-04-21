@@ -213,3 +213,28 @@ body {
     width: auto;
   }
 }
+
+@media (max-width: 480px) {
+  .chip-overlay {
+    left: 16px;
+    right: auto;
+    bottom: 16px;
+    width: auto;
+    max-width: 200px;
+    height: auto;
+    padding: 0.7rem 0.8rem;
+  }
+
+  .chip-title {
+    font-size: clamp(1rem, 5.5vw, 1.75rem);
+    margin-bottom: 0.45rem;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .chip-emoji {
+    font-size: 36px;
+    padding: 0.7rem 0.5rem;
+    margin: 0.2rem 0 0.55rem;
+  }
+}

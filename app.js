@@ -51,6 +51,14 @@ function stabilizeAndPlay(rawName) {
   audio.play().catch(() => {});
 }
 
+// Unlock audio on mobile — browsers block audio until the first user interaction.
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+function unlockAudio() {
+  if (audioCtx.state === "suspended") audioCtx.resume();
+}
+document.addEventListener("click", unlockAudio, { once: true });
+document.addEventListener("touchstart", unlockAudio, { once: true });
+
 const videoElement = document.querySelector(".input-video");
 const canvasElement = document.querySelector(".output-canvas");
 const canvasCtx = canvasElement.getContext("2d");
