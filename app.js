@@ -1,15 +1,21 @@
 import { detectMudra } from "./mudras.js";
 
+function makeAudio(src) {
+  const a = new Audio(src);
+  a.preload = "auto";
+  return a;
+}
+
 const MUDRA_AUDIO = {
-  "Patāka":       new Audio("./audio/Patāka.mp3"),
-  "Tripatāka":    new Audio("./audio/Tripatāka.mp3"),
-  "Ardhapatāka":  new Audio("./audio/Ardhapatāka.mp3"),
-  "Chandrakalā":  new Audio("./audio/Chandrakalā.mp3"),
-  "Alāpadma":     new Audio("./audio/Alāpadma.mp3"),
-  "Muṣṭi":        new Audio("./audio/Muṣṭi.mp3"),
-  "Katakamukha":  new Audio("./audio/Katakamukha.mp3"),
-  "Mayūra":       new Audio("./audio/Mayūra.mp3"),
-  "Suchi":        new Audio("./audio/suchi.mp3"),
+  "Patāka":       makeAudio("./audio/Patāka.mp3"),
+  "Tripatāka":    makeAudio("./audio/Tripatāka.mp3"),
+  "Ardhapatāka":  makeAudio("./audio/Ardhapatāka.mp3"),
+  "Chandrakalā":  makeAudio("./audio/Chandrakalā.mp3"),
+  "Alāpadma":     makeAudio("./audio/Alāpadma.mp3"),
+  "Muṣṭi":        makeAudio("./audio/Muṣṭi.mp3"),
+  "Katakamukha":  makeAudio("./audio/Katakamukha.mp3"),
+  "Mayūra":       makeAudio("./audio/Mayūra.mp3"),
+  "Suchi":        makeAudio("./audio/suchi.mp3"),
 };
 
 const STABLE_FRAMES_REQUIRED = 8;
